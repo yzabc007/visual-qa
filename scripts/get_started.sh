@@ -13,8 +13,9 @@ cd ../features/
 #convert the data to a simpler format
 cd ../scripts
 python dumpText.py -split train -answers modal
+python dumpText.py -split train -answers all
 python dumpText.py -split val -answers all
 
 #train and evaluate models
-python trainMLP.py
-python evaluateMLP.py -model ../models/mlp_num_hidden_units_1024_num_hidden_layers_3.json -weights ../models/mlp_num_hidden_units_1024_num_hidden_layers_3_epoch_00_loss_5.10.hdf5 -results ../results/mlp_1024_3_ep0.txt
+python TrainMLP.py
+# python evaluateMLP.py -model ../models/mlp_num_hidden_units_1024_num_hidden_layers_3.json -weights ../models/mlp_num_hidden_units_1024_num_hidden_layers_3_epoch_00_loss_5.10.hdf5 -results ../results/mlp_1024_3_ep0.txt
