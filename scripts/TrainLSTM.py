@@ -75,29 +75,29 @@ def main():
 	nb_classes = len(list(labelencoder.classes_))
 	joblib.dump(labelencoder,'../models/labelencoder.pkl')
 	
-	# image_input = Input(shape = (img_dim, ), name = 'image_input')
-	# # image_gap = Dense(args.gap_layer_units, activation = args.activation_mlp)(image_input)
+	image_input = Input(shape = (img_dim, ), name = 'image_input')
+	# image_gap = Dense(args.gap_layer_units, activation = args.activation_mlp)(image_input)
 
-	# language_input = Input(shape = (None, word_vec_dim), name = 'language_input')	
-	# lstm_out = LSTM(args.num_hidden_units_lstm)(language_input)
-	# # lstm_gap = Dense(args.gap_layer_units, activation = args.activation_mlp)(lstm_out)
+	language_input = Input(shape = (None, word_vec_dim), name = 'language_input')	
+	lstm_out = LSTM(args.num_hidden_units_lstm)(language_input)
+	# lstm_gap = Dense(args.gap_layer_units, activation = args.activation_mlp)(lstm_out)
 	
-	# # x = keras.layers.concatenate([lstm_gap, image_gap])
-	# x = keras.layers.concatenate([lstm_out, image_input])
-	# x = Dense(1024, activation = args.activation_mlp)(x)
-	# x = Dropout(args.dropout)(x)
-	# x = Dense(512, activation = args.activation_mlp)(x)
-	# x = Dropout(args.dropout)(x)
-	# x = Dense(256, activation = args.activation_mlp)(x)
-	# x = Dropout(args.dropout)(x)
-	# main_output = Dense(nb_classes, activation = 'softmax', name = 'main_output')(x)
-	# model = Model(inputs = [language_input, image_input], outputs = [main_output])
+	# x = keras.layers.concatenate([lstm_gap, image_gap])
+	x = keras.layers.concatenate([lstm_out, image_input])
+	x = Dense(1024, activation = args.activation_mlp)(x)
+	x = Dropout(args.dropout)(x)
+	x = Dense(512, activation = args.activation_mlp)(x)
+	x = Dropout(args.dropout)(x)
+	x = Dense(256, activation = args.activation_mlp)(x)
+	x = Dropout(args.dropout)(x)
+	main_output = Dense(nb_classes, activation = 'softmax', name = 'main_output')(x)
+	model = Model(inputs = [language_input, image_input], outputs = [main_output])
 
-	args.model = '../models/lstm_1_num_hidden_units_lstm_512_num_hidden_units_mlp_1024_num_hidden_layers_mlp_3_num_hidden_layers_lstm_1.json'
-	args.weights = '../models/lstm_1_num_hidden_units_lstm_512_num_hidden_units_mlp_1024_num_hidden_layers_mlp_3_num_hidden_layers_lstm_1_epoch_100.hdf5'
+	# args.model = '../models/lstm_1_num_hidden_units_lstm_512_num_hidden_units_mlp_1024_num_hidden_layers_mlp_3_num_hidden_layers_lstm_1.json'
+	# args.weights = '../models/lstm_1_num_hidden_units_lstm_512_num_hidden_units_mlp_1024_num_hidden_layers_mlp_3_num_hidden_layers_lstm_1_epoch_100.hdf5'
 
-	model = model_from_json(open(args.model).read())
-	model.load_weights(args.weights)
+	# model = model_from_json(open(args.model).read())
+	# model.load_weights(args.weights)
 
 	json_string = model.to_json()
 	model_file_name = '../models/lstm_1_num_hidden_units_lstm_' + str(args.num_hidden_units_lstm) + \
